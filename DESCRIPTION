@@ -1,0 +1,20 @@
+Package: DF21
+Type: Package
+Title: SNA functions and dataset for Data Forensics 2021-2022
+Version: 0.2
+Date: 2022-03-08
+Maintainer: Roger Leenders <r.t.a.j.leenders@jads.nl>
+Author: Roger Leenders <r.t.a.j.leenders@jads.nl>
+Depends:
+    R (>= 4.1.0)
+LazyLoad: yes
+Imports:
+	igraph,
+    intergraph,
+	network,
+	sna
+Description: Some functions and lots of datasets that are potentially useful for the Data Forensics course 2021-2022.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
