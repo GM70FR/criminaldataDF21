@@ -9,8 +9,8 @@ shapley_centrality(x, add.vertex.names = FALSE, vids = igraph::V(x))
 \arguments{
 \item{x}{An object of class \code{igraph} or \code{network}}
 
-\item{add.vertex.names}{logical, should the output contain vertex names. 
-This requires a vertex attribute \code{name} to be present in the graph. 
+\item{add.vertex.names}{logical, should the output contain vertex names.
+This requires a vertex attribute \code{name} to be present in the graph.
 It is ignored if the attributed is missing.}
 
 \item{vids}{Vertices to be considered in the calculation (numeric vector)}
@@ -19,8 +19,8 @@ It is ignored if the attributed is missing.}
 Vector with the Shapley centrality values for each vertex
 }
 \description{
-This function computes the centrality of vertices 
-based on their Shapley value, following the approach from the 
+This function computes the centrality of vertices
+based on their Shapley value, following the approach from the
 Michalak et al. (2013) paper.
 }
 \examples{
@@ -32,11 +32,11 @@ shapley_centrality(g1)
 shapley_centrality(g1, add.vertex.names = TRUE)
 }
 \references{
-Michalak, T.P., Aadithya, K.V., Szczepanski, P.L., Ravindran, B. and 
-Jennings, N.R., 2013. Efficient computation of the Shapley value for 
-game-theoretic network centrality. Journal of Artificial Intelligence 
+Michalak, T.P., Aadithya, K.V., Szczepanski, P.L., Ravindran, B. and
+Jennings, N.R., 2013. Efficient computation of the Shapley value for
+game-theoretic network centrality. Journal of Artificial Intelligence
 Research, 46, pp.607-650.
 
-The code is adapted from \code{CINNA::group_centrality} and gives the 
+The code is adapted from \code{CINNA::group_centrality} and gives the
 same result (but our version is slightly more robust).
 }

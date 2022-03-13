@@ -16,19 +16,19 @@ geokpath_centrality(
 \item{graph}{The input graph as igraph object}
 
 \item{vids}{Numeric vertex sequence, the vertices that should be considered.
-Default is all vertices. Otherwise, the operation is performed on the 
+Default is all vertices. Otherwise, the operation is performed on the
 subgraph only containing vertices \code{vids}.}
 
-\item{mode}{Character constant, gives whether the shortest paths to or from 
-the given vertices should be calculated for directed graphs. 
-If \code{out} then the shortest paths from the vertex, if \code{in} then to 
-it will be considered. If \code{all}, the default, then the corresponding 
-undirected graph will be used, ie. not directed paths are searched. 
+\item{mode}{Character constant, gives whether the shortest paths to or from
+the given vertices should be calculated for directed graphs.
+If \code{out} then the shortest paths from the vertex, if \code{in} then to
+it will be considered. If \code{all}, the default, then the corresponding
+undirected graph will be used, ie. not directed paths are searched.
 This argument is ignored for undirected graphs.}
 
-\item{weights}{Possibly a numeric vector giving edge weights. 
-If this is NULL, the default, and the graph has a weight edge attribute, 
-then the attribute is used. If this is NA then no weights are used (even if 
+\item{weights}{Possibly a numeric vector giving edge weights.
+If this is NULL, the default, and the graph has a weight edge attribute,
+then the attribute is used. If this is NA then no weights are used (even if
 the graph has a weight attribute).}
 
 \item{k}{The k parameter. The default is 3.}
@@ -37,7 +37,7 @@ the graph has a weight attribute).}
 A numeric vector contaning the centrality scores for the selected vertices.
 }
 \description{
-Geodesic K-path centrality counts the number of vertices that can be reached 
+Geodesic K-path centrality counts the number of vertices that can be reached
 through a geodesic path of length less than "k".
 }
 \details{
@@ -48,7 +48,7 @@ g <- igraph::barabasi.game(100)
 geokpath_centrality(g)
 }
 \references{
-Borgatti, Stephen P., and Martin G. Everett. 
+Borgatti, Stephen P., and Martin G. Everett.
 "A graph-theoretic perspective on centrality." Social networks 28.4 (2006): 466-484.
 }
 \author{

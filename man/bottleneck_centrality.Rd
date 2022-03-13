@@ -14,44 +14,70 @@ bottleneck_centrality(
 \arguments{
 \item{graph}{The input graph as igraph object}
 
-\item{mode}{Character constant, gives whether the shortest paths to or from 
-the given vertices should be calculated for directed graphs. 
-If \code{out} then the shortest paths from the vertex, if \code{in} then to 
-it will be considered. If \code{all}, the default, then the corresponding 
+\item{mode}{Character constant, gives whether the shortest paths to or from
+the given vertices should be calculated for directed graphs.
+If \code{out} then the shortest paths from the vertex, if \code{in} then to
+it will be considered. If \code{all}, the default, then the corresponding
 undirected graph will be used. This argument is ignored for undirected graphs.}
 
 \item{vids}{Numeric vertex sequence, the vertices that should be considered.
-Default is all vertices. Otherwise, the operation is performed on the 
+Default is all vertices. Otherwise, the operation is performed on the
 subgraph only containing vertices \code{vids}.}
 
 \item{n}{scalar, defaults to 4.}
 }
 \value{
-A numeric vector contaning the centrality scores for the selected vertices.
+A data.frame with vertex names (if they exist) and bottleneck
+centrality scores.
+Otherwise, a numeric vector contaning the centrality scores for the
+selected vertices.
 }
 \description{
-BottleNeck Centrality for vertex v is defined as:
-\deqn{BN(v) = \sum_{s\in v} P_{s}(v)}{BN(v) = sum(P(s)(v), s in v)}
-Let \eqn{T_{s}}{T(s)} be a shortest path tree rooted at node \eqn{s}{s}.
-\eqn{P_{s}(v) = 1}{P(s)(v) = 1} if more than 1/nth of the shortest paths 
-from node \eqn{s}{s} to other nodes in \eqn{T_{s}}{T(s)} go through 
-vertex \eqn{v}{v}, otherwise \eqn{P_{s}(v) = 0}{P(s)(v) = 0}.
+How often is a vertex a bottleneck for other vertices in the graph?
 }
 \details{
-For each node \eqn{v}{v} in the graph, construct a tree \eqn{T_{v}}{T(v)} 
-of shortest paths from that node to all other nodes in the graph. 
+Consider the geodesics from \eqn{i} to all other vertices.
+If node \eqn{v} is part of at least 1/n-th of these geodesics, \eqn{v} is said
+to be a bottleneck for \eqn{i}.
+By default, \code{n == 4}, so \eqn{v} is a bottleneck for \eqn{i}
+if \eqn{v} is part of least one quarter of all of the geodesics from \eqn{i}.
 
-For a node \eqn{v}{v}, \eqn{n_{v}}{n(v)} is the number of nodes that are 
-directly or indirectly connected to node \eqn{v}{v} 
-(i.e. the tree \eqn{T_{v}}{T(v)} contains these nodes). 
+The bottleneck centrality of \eqn{v} is the number of vertices that \eqn{v}
+is a bottleneck for.
 
-For each tree \eqn{T_{v}}{T(v)}, determine which nodes w are on at least 
-1/nth of the shortest paths from v. 
-These nodes w represent 'bottle necks' of the shortest path tree 
-\eqn{T_{v}}{T(v)} rooted at node \eqn{v}{v}.
+The score runs from 0 (ie. the vertex is a bottleneck for no other vertex)
+to \eqn{g - 1}, with {g} being the number of vertices in \code{graph.}
 
-Note that the implementation of this measure in the \code{centiserve} package 
+The calculation does not use edge weights, even if the graph is weighted
+(but the implementation could easily be altered to include weight as well).
+
+Especially when densely connected subgroups exist,
+multiple shortest paths are possible between two vertices.
+If a vertex appear on at least one of them, that path counts as part of the
+calculation.
+This implies that being a \emph{bottleneck} does not take into account
+whether there are alternative geodesics between the two vertices;
+in other words, it does not matter whether the geodesic that \eqn{v} is
+part of is redundant or not and alternative geodesics exist between the
+pair of vertices that \eqn{v} is not part of and have the same length as
+the geodesic(s) that \eqn{v} is on.
+Hence, removal of the bottleneck node from the graph may not affect the
+efficiency of the graph in these cases.
+
+Note that geodesics that end at \eqn{v} also count in the calculation.
+So, when there are multiple geodesics from \eqn{i} to \eqn{v},
+it is likely that \eqn{v} will count as a bottleneck for \eqn{i},
+although this may not be realistic.
+An alteration of this measure to discard geodesics to \eqn{v} might be advisable.
+
+Also note that the implementation of this measure in the \code{centiserve} package
 is incorrect, so use our function and not theirs.
+
+Also note that geodesics that end at \eqn{v} also count in the calculation.
+So, when there are multiple geodesics from \eqn{i} to \eqn{v},
+it is likely that \eqn{v} will count as a bottleneck for \eqn{i},
+although this may not be realistic.
+An alteration of this measure to discard geodesics to \eqn{v} might be advisable.
 }
 \examples{
 g <- igraph::graph(c(1,2,2,3,3,4,4,2))
@@ -59,8 +85,15 @@ bottleneck_centrality(g)
 bottleneck_centrality(g, vids = c(1, 2, 4))
 bottleneck_centrality(g, mode = "out")
 bottleneck_centrality(g, mode = "in")
+
+g <- igraph::make_star(10, mode = "undirected")
+bottleneck_centrality(g) 
+g <- igraph::make_ring(10)
+bottleneck_centrality(g) # all 0
+bottleneck_centrality(g, n = Inf) # all 9
 }
 \references{
-Przulj, N., Dennis A. Wigle, and Igor Jurisica. 
-"Functional topology in a network of protein interactions." Bioinformatics 20.3 (2004): 340-348.
+Przulj, N., Dennis A. Wigle, and Igor Jurisica.
+"Functional topology in a network of protein interactions."
+Bioinformatics 20.3 (2004): 340-348.
 }

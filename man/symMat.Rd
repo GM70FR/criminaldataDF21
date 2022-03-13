@@ -11,13 +11,13 @@ symMat(g, rule = "weak", na.rm = TRUE)
 
 \item{rule}{the rule used to determine how to symmetrize
 \itemize{
- \item \strong{out} outgoing ties (upper triangle of the adjacency matrix) are copied exactly. What is sent is reciprocated. Technically: the upper triangle is copied over the lower triangle.
- \item \strong{in} ingoing ties (lower triangle of the adjacency matrix) are copied exactly. What is received is reciprocated. Technically: the lower triangle is copied over the upper triangle.
- \item \strong{weak} if i -> j AND/OR j -> i, the tie becomes reciprocated
- \item \strong{mutual} only reciprocated ties are maintained
- \item \strong{average} the average value of ij and ji is returned (\code{na.rm} is used)
- \item \strong{max} the max value of ij and ji is returned (\code{na.rm} is used)
- \item \strong{min} the min value of ij and ji is returned (\code{na.rm} is used)
+\item \strong{out} outgoing ties (upper triangle of the adjacency matrix) are copied exactly. What is sent is reciprocated. Technically: the upper triangle is copied over the lower triangle.
+\item \strong{in} ingoing ties (lower triangle of the adjacency matrix) are copied exactly. What is received is reciprocated. Technically: the lower triangle is copied over the upper triangle.
+\item \strong{weak} if i -> j AND/OR j -> i, the tie becomes reciprocated
+\item \strong{mutual} only reciprocated ties are maintained
+\item \strong{average} the average value of ij and ji is returned (\code{na.rm} is used)
+\item \strong{max} the max value of ij and ji is returned (\code{na.rm} is used)
+\item \strong{min} the min value of ij and ji is returned (\code{na.rm} is used)
 }}
 
 \item{na.rm}{how to deal with missings, default is \code{TRUE}}
@@ -29,7 +29,7 @@ the symmetrized matrix
 Function to symmetrize an adjacency matrix in several ways
 }
 \details{
-Symmetrizes a square matrix. There is a choice of several methods 
+Symmetrizes a square matrix. There is a choice of several methods
 to do this.
 }
 \examples{

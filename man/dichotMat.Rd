@@ -9,7 +9,7 @@ dichotMat(mat, min)
 \arguments{
 \item{mat}{a numeric matrix}
 
-\item{min}{a threshold. All values in \code{mat} of at least this minimum value 
+\item{min}{a threshold. All values in \code{mat} of at least this minimum value
 will become 1, all values smaller than this minimum will become 0.}
 }
 \value{
@@ -19,8 +19,8 @@ the dichotomized matrix
 Make a binary matrix out of a weighted matrix
 }
 \details{
-If a cell has value smaller than a minimum value, 
-the cell becomes 0. If the cell has a value of at least 
+If a cell has value smaller than a minimum value,
+the cell becomes 0. If the cell has a value of at least
 the minimum value, it becomes 1.
 The procedure will work for any matrix, not necessarily a square one.
 }

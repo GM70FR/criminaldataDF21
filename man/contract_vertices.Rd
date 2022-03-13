@@ -16,7 +16,7 @@ contract_vertices(
 \arguments{
 \item{g}{network as an \code{igraph} object or an adjacency matrix.}
 
-\item{vertices}{Numeric vertor indicating the indeces of the vertices are 
+\item{vertices}{Numeric vertor indicating the indeces of the vertices are
 to be contracted.}
 
 \item{method}{Indication of which grouping criterion should be used.\cr
@@ -26,48 +26,48 @@ to be contracted.}
 \code{method="union"} indicates the "union" criterion (edge values as probability).\cr
 The default is "min". See details for examples.}
 
-\item{attr}{Either NULL or a character string giving an edge attribute name to 
-be used as weights.  
-If \code{NULL}, the unweighted network is used to calculate the values of the 
-resulting contracted network. 
-If not \code{NULL} then the values of the given edge attribute are included 
-in the adjacency matrix. If the graph has multiple edges, the edge attribute 
+\item{attr}{Either NULL or a character string giving an edge attribute name to
+be used as weights.
+If \code{NULL}, the unweighted network is used to calculate the values of the
+resulting contracted network.
+If not \code{NULL} then the values of the given edge attribute are included
+in the adjacency matrix. If the graph has multiple edges, the edge attribute
 of an arbitrarily chosen edge (for the multiple edges) is included.}
 
-\item{new_name}{character, name of the new pseudovertex. If not specified, 
+\item{new_name}{character, name of the new pseudovertex. If not specified,
 it will be called "set".}
 
-\item{out_as_igraph}{logical. If \code{TRUE} the resulting network is 
-returned as an \code{igraph} object. If \code{FALSE}, the output is 
+\item{out_as_igraph}{logical. If \code{TRUE} the resulting network is
+returned as an \code{igraph} object. If \code{FALSE}, the output is
 returned as an adjacency matrix.}
 }
 \value{
 An \code{igraph} object or an adjacency matrix of the contracted network.
 }
 \description{
-\code{contract_vertices} combines a set of vertices into one pseudo-vertex 
+\code{contract_vertices} combines a set of vertices into one pseudo-vertex
 and returns the reduced network.
 }
 \details{
-This function contracts a set of vertices into a pseudo-vertex and returns 
-the network with that new vertex included (and the contracted vertices 
-excluded). 
+This function contracts a set of vertices into a pseudo-vertex and returns
+the network with that new vertex included (and the contracted vertices
+excluded).
 
-Weighted ties can be used. 
-This requires to either provide a weighted adjacency matrix OR 
-an \code{igraph} object with an attribute that is used for weights. 
+Weighted ties can be used.
+This requires to either provide a weighted adjacency matrix OR
+an \code{igraph} object with an attribute that is used for weights.
 Make sure that this attribute is numeric.
-By default, if the \code{igraph} object contains an edge attribute called 
-\code{weight}, this attribute will be used as a weight by default, unless 
+By default, if the \code{igraph} object contains an edge attribute called
+\code{weight}, this attribute will be used as a weight by default, unless
 a different edge attribute is explicitly specified as \code{attr}.
 
-The \code{method} specifies how the (possibly weighted) edges between the 
-selected \code{vertices} and the other vertices are combined into edges between 
-the new pseudovertex and the other vertices. The default is to use the 
+The \code{method} specifies how the (possibly weighted) edges between the
+selected \code{vertices} and the other vertices are combined into edges between
+the new pseudovertex and the other vertices. The default is to use the
 \code{min} procedure.
 
-NOTE: if \code{g} is an \code{igraph} object without vertex names, the 
-names will be added automatically (as integeres, numbered from 1). 
+NOTE: if \code{g} is an \code{igraph} object without vertex names, the
+names will be added automatically (as integeres, numbered from 1).
 This is useful, so it is clear who-is-who after the vertex contraction.
 
 Minimum Criterion: the edge value between a group and an outside vertex
@@ -102,7 +102,7 @@ the outside vertex. Suggested if edge values are as probability. \cr
 1 - (1 - 0.2) * (1 - 0.5) = 0.6 according to the union criterion.}
 }
 \note{
-Based on the \code{contract} function from the \code{keyplayer} package. 
+Based on the \code{contract} function from the \code{keyplayer} package.
 The implementation in our package is more general.
 }
 \examples{
