@@ -27,9 +27,9 @@ undirected graph will be used, ie. not directed paths are searched.
 This argument is ignored for undirected graphs.}
 
 \item{weights}{Possibly a numeric vector giving edge weights.
-If this is NULL, the default, and the graph has a weight edge attribute,
-then the attribute is used. If this is NA then no weights are used (even if
-the graph has a weight attribute).}
+If this is \code{NULL}, the default, and the graph has a weight edge attribute,
+then the attribute is used. If this is \code{NA} then no weights are used
+(even if the graph has a weight attribute).}
 
 \item{k}{The k parameter. The default is 3.}
 }
@@ -41,7 +41,16 @@ Geodesic K-path centrality counts the number of vertices that can be reached
 through a geodesic path of length less than "k".
 }
 \details{
-More detail at \href{http://www.centiserver.org/?q1=centrality&q2=Geodesic_K-Path_Centrality}{Geodesic K-Path Centrality}
+This function counts the number of vertices that a specific vertex can
+reach within k steps.
+By default, this number is weighted (if the graph has a \code{weight}
+edge attribute).
+This can be overridden by setting the \code{weights} argument to
+\code{NA} (no weight is used) or to a vector with weights (typically
+this is a numeric edge attribute).
+
+More detail at
+\href{http://www.centiserver.org/?q1=centrality&q2=Geodesic_K-Path_Centrality}{Geodesic K-Path Centrality}
 }
 \examples{
 g <- igraph::barabasi.game(100)

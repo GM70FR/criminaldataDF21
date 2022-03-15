@@ -4,10 +4,18 @@
 \alias{vuln_paths}
 \title{Vulnerability: paths}
 \usage{
-vuln_paths(g, weight = NULL, digits = 3)
+vuln_paths(g, mode = c("all", "out", "in"), weight = NULL, digits = 3)
 }
 \arguments{
 \item{g}{object of class \code{igraph}}
+
+\item{mode}{Character constant, gives whether the shortest paths to or from
+the vertices should be calculated for directed graphs. If \code{out} then the
+shortest paths in the direction of the edges is taken, if \code{in} then
+paths will go against the direction of the edge.
+If \code{all}, the default, then the corresponding undirected graph will be
+used, ie. edge direction is not taken into account.
+This argument is ignored for undirected graphs.}
 
 \item{weight}{Possibly a numeric vector giving edge weights.
 If this is \code{NULL}--which is the default--and the graph

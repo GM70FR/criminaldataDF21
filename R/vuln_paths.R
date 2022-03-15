@@ -33,6 +33,13 @@
 #' from the graph.
 #' 
 #' @param g object of class \code{igraph}
+#' @param mode Character constant, gives whether the shortest paths to or from 
+#' the vertices should be calculated for directed graphs. If \code{out} then the 
+#' shortest paths in the direction of the edges is taken, if \code{in} then 
+#' paths will go against the direction of the edge. 
+#' If \code{all}, the default, then the corresponding undirected graph will be 
+#' used, ie. edge direction is not taken into account. 
+#' This argument is ignored for undirected graphs.
 #' @param weight Possibly a numeric vector giving edge weights. 
 #' If this is \code{NULL}--which is the default--and the graph 
 #' has a \code{weight} edge attribute, then the attribute is used 
@@ -53,7 +60,9 @@
 #' 
 #' @return a data.frame with a score per vertex
 #' @export
-vuln_paths <- function(g, weight = NULL, digits = 3) {
+vuln_paths <- function(g, 
+                       mode = c("all", "out", "in"),
+                       weight = NULL, digits = 3) {
   
   if (!inherits(g, "igraph")) {
     stop("'g' should be an igraph object")
@@ -68,16 +77,16 @@ vuln_paths <- function(g, weight = NULL, digits = 3) {
   dist[dist == Inf] <- 1
   # number of pairs of vertices that can not reach each other
   no_path <- sum(dist)
+  mode <- mode[1]
   
   for (i in 1:n) {
     g2 <- g
     g2 <- igraph::delete_vertices(g2, i)
-    dist2 <- igraph::distances(g2, weight = weight)
+    dist2 <- igraph::distances(g2, mode = mode, weight = weight)
     dist2[dist2 != Inf] <- 0
     dist2[dist2 == Inf] <- 1
     no_path2 <- sum(dist2)
-    # browser() ###---###---###---###---###---###---###---###---
-    # tel de "miet-paden" van i zelf in de oorsponkelijke graph
+    # tel de "niet-paden" van i zelf in de oorsponkelijke graph
     # niet mee
     no_path_i <- sum(c(dist[, i], dist[i, ]))
     fin[i] <- no_path2 - (no_path - no_path_i)

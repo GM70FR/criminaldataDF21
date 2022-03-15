@@ -7,6 +7,7 @@
 vuln_efficiency(
   g,
   method = c("harmonic", "sum"),
+  mode = c("all", "out", "in"),
   weight = NA,
   disconnected = c("size", "max", "infinite"),
   digits = 3
@@ -17,6 +18,14 @@ vuln_efficiency(
 
 \item{method}{Either "harmonic" (the default) or "sum".
 Denotes which method to use for the measure of efficiency.}
+
+\item{mode}{Character constant, gives whether the shortest paths to or from
+the vertices should be calculated for directed graphs. If \code{out} then the
+shortest paths in the direction of the edges is taken, if \code{in} then
+paths will go against the direction of the edge.
+If \code{all}, the default, then the corresponding undirected graph will be
+used, ie. edge direction is not taken into account.
+This argument is ignored for undirected graphs.}
 
 \item{weight}{Possibly a numeric vector giving edge weights.
 If this is \code{NA}--which is the default--

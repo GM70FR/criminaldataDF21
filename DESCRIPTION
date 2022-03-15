@@ -1,8 +1,8 @@
 Package: DF21
 Type: Package
 Title: SNA functions and dataset for Data Forensics 2021-2022
-Version: 0.2
-Date: 2022-03-08
+Version: 0.3
+Date: 2022-03-14
 Maintainer: Roger Leenders <r.t.a.j.leenders@jads.nl>
 Author: Roger Leenders <r.t.a.j.leenders@jads.nl>
 Depends:

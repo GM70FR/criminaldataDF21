@@ -90,6 +90,13 @@
 #' @param g object if class \code{igraph}
 #' @param method Either "harmonic" (the default) or "sum". 
 #' Denotes which method to use for the measure of efficiency.
+#' @param mode Character constant, gives whether the shortest paths to or from 
+#' the vertices should be calculated for directed graphs. If \code{out} then the 
+#' shortest paths in the direction of the edges is taken, if \code{in} then 
+#' paths will go against the direction of the edge. 
+#' If \code{all}, the default, then the corresponding undirected graph will be 
+#' used, ie. edge direction is not taken into account. 
+#' This argument is ignored for undirected graphs.
 #' @param weight Possibly a numeric vector giving edge weights. 
 #' If this is \code{NA}--which is the default--
 #' then no weights are used 
@@ -109,6 +116,7 @@
 #' @export
 vuln_efficiency <- function(g, 
                             method = c("harmonic", "sum"),
+                            mode = c("all", "out", "in"),
                             weight = NA,
                             disconnected = c("size", "max", "infinite"),
                             digits = 3) {
@@ -136,10 +144,10 @@ vuln_efficiency <- function(g,
   
   disconnected <- disconnected[1]
   method <- method[1]
-  
+  mode <- mode[1]
   n <- length(igraph::V(g))
   fin <- prop <- matrix(ncol = 1, nrow = n, 0)
-  dt <- igraph::distances(g, weight = weight)
+  dt <- igraph::distances(g, mode = mode, weight = weight)
   
   if (disconnected == "size") {
     if (is.na(weight)) {   # no weight is used
@@ -169,7 +177,7 @@ vuln_efficiency <- function(g,
   for (i in 1:n) {
     g2 <- g
     g2 <- igraph::delete_vertices(g2, i)
-    dt2 <- igraph::distances(g2, weight = weight)
+    dt2 <- igraph::distances(g2, mode = mode, weight = weight)
     
     if (disconnected == "size") {
       if (is.na(weight)) {   # no weight is used
