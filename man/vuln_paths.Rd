@@ -62,6 +62,12 @@ to and from \code{i} itself).
 A score of 1 means that there is no effect on the
 vertex-pair disconnectedness when the vertex is removed
 from the graph.
+A value of \code{Inf} occurs when all vertices were
+connected before \code{i} was removed, but after removing
+\code{i} some became disconnected.
+This makes the proportion Infinite since the number
+is relative to the original number of disconnected
+vertices, which was 0.
 }
 \note{
 This function is inspired by

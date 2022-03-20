@@ -47,7 +47,7 @@ The default is \code{disconnected == "size"}.}
 }
 \description{
 The vulnerability of a network, in terms of the change in
-necessary path lengths..
+necessary path lengths.
 }
 \details{
 When a vertex is removed from the network, some other vertices

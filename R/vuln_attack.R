@@ -8,7 +8,7 @@
 #' networks become quite vulnerable to attacks (that is, to the removal of a 
 #' few nodes that play a vital role in maintaining the network's connectivity). 
 #' 
-#' This function drops vertices from the graph according to five different regimes.
+#' This function drops vertices from the graph according to four different regimes.
 #' Every time, one vertex is removed, then the next one as well, et cetera, until 
 #' the network has become empty. 
 #' 
@@ -36,6 +36,13 @@
 #' original graph. 
 #' First the vertex is removed with the highest betweenness, then the one with 
 #' the second highest betweenness, etc. This the column \code{Betw.-based}.
+#' Say, the first vertex here has score 0.40. This means that 40 percent of 
+#' all vertex pairs (directed, including the pairs that include this vertex itself) 
+#' that could reach each other before this vertex was removed can no longer 
+#' reach each other. 
+#' Hence, only 60 percent of the reachable paths remain.
+#' When the second vertex then has score 0.45, this means that removing the
+#' second vertex removed an additional 5 percent of the original reachable paths.
 #' 
 #' Scenario 2: vertices are removed based on their degree in the 
 #' original graph. 
@@ -46,6 +53,8 @@
 #' active graph. 
 #' First the vertex is removed with the highest betweenness. 
 #' Then, betweenness scores are recalculated for the new, smaller graph.
+#' This mimicks the case where a graph resettles itself after an attack/failure, 
+#' redistributing the load across the remaining vertices.
 #' Then, the vertex with the highest betweenness in this new graph is removed.
 #' Then, betweenness scores are recalculated for the new, smaller graph and 
 #' the vertex with the highest betweenness in this new graph is removed. Etc.
@@ -82,13 +91,15 @@
 #' has a \code{weight} edge attribute, then this edge attribute is used 
 #' in the calculation of the distances. 
 #' @param k the number of simulations for the random scenario.
+#' @param digits the number of decimals in the output
 #'
-#' @return numeric matrix witrh appropriately named columns
+#' @return numeric matrix with appropriately named columns
 #' @export
 vuln_attack <- function(g, 
                         mode = c("all", "out", "in"),
                         weight = NA,
-                        k = 10) {
+                        k = 10,
+                        digits = 4) {
   
   if (!inherits(g, "igraph")) {
     stop("'g' should be an igraph object")
@@ -221,6 +232,6 @@ vuln_attack <- function(g,
   fin[, 6] <- cumsum(2*(n - (1:n)))
   fin[, 6] <- fin[, 6]/max(fin[, 6])
   
-  return(fin)
+  return(round(fin, digits = digits))
 }
 

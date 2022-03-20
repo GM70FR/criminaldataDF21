@@ -25,7 +25,7 @@
 #'  Then the Krackhardt efficiency of G is given by
 #'  1 - ( |E(G)| - Sum(N_i-1,i=1,..,n) )/( Sum(N_i(N_i-1) - (N_i-1),i=1,..,n) )
 #'  which can be interpreted as 1 minus the proportion of 
-#'  possible “extra” edges (above those needed to weakly connect the
+#'  possible 'extra' edges (above those needed to weakly connect the
 #'  existing components) actually present in the graph. 
 #'  A graph which an efficiency of 1 has precisely as many edges 
 #'  as are needed to connect its components; as additional 
@@ -37,7 +37,8 @@
 #'
 #' @return
 #' A single numeric value between 0 (completely inefficient graph) 
-#' and 1 (maximally efficient graph)
+#' and 1 (maximally efficient graph).
+#' The value 0 can occur when the network is disconnected.
 #' 
 #' @export
 graph_efficiency <- function(g, diag = FALSE) {

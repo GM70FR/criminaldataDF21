@@ -2,9 +2,12 @@
 % Please edit documentation in R/secrecy.R
 \name{secrecy_graph}
 \alias{secrecy_graph}
-\title{secrecy of a graph}
+\alias{secrecy_vertex}
+\title{secrecy index}
 \usage{
 secrecy_graph(g, type = 0, p = 0.25, digits = 3)
+
+secrecy_vertex(g, type = 1, p = 0.25, digits = 3)
 }
 \arguments{
 \item{g}{graph of class \code{igraph}}
@@ -19,17 +22,17 @@ secrecy_graph(g, type = 0, p = 0.25, digits = 3)
 data.frame
 }
 \description{
-Calculates the graph level secrecy index of a graph
+Calculates the graph level secrecy index of a graph and its vertices
 }
 \details{
 The \code{secrecy} measure is useful for covert networks where its
 members want to remain undetected to the law enforcement agencies (LEA's),
-even
-when some of their peers are detected.
+even when some of their peers are detected.
+
 The \code{secrecy} measure is defined as the fraction of the network that
 remains unexposed if a single member of the network is detected.
-Hence, the score runs between 0 (=everybody gets exposed as soon as 1
-person is exposed) to 1 (=nobody gets exposed when 1 person is exposed).
+Hence, the score runs between 0 (= everybody gets exposed as soon as 1
+person is exposed) to 1 (= nobody gets exposed when 1 person is exposed).
 In real cases, the boundary values of 0 and 1 will only occur in pathological
 networks.
 
@@ -42,13 +45,13 @@ There are several ways of computing the network's \code{secrecy}.
 
 \code{S1} assumes that every actor has the same probability of being
 detected under a surveillance (with p = 1/number_of_vertices) and
-deﬁnes the secrecy individual i ‘contributes’ to the
+defines the secrecy that individual i 'contributes' to the
 network as the fraction of individuals that remain unexposed when
 upon monitoring individual i all his links with his neighbors are
 detected.
 
 \code{S2} assumes that whenever an individual in
-the network is being monitored communication between him and
+the network is being monitored, communication between him and
 one of his neighbors is detected independently with probability p.
 The case where p = 1 therefore corresponds to measure \code{S1}.
 If individual i has di neighbors the
@@ -59,9 +62,9 @@ of being detected under a surveillance (with p = 1/number_of_vertices).
 The calculation of \code{S2} requires the user to specify a reasonable
 value for \code{p}, which may not be obvious.
 
-\code{S3} no longer assumes that ˛i = 1/n for all i ∈ V (as in \code{S1}
-and \code{S2}.
-It can be argued that this is a fair assumption when a covert operation
+\code{S3} no longer assumes that i = 1/n for all i in V (as in \code{S1}
+and \code{S2}).
+It can be argued that i = 1/n is a fair assumption when a covert operation
 is in its initial phase.
 However, if an operation passed its initial stage the probability of
 exposure will vary among network members.
@@ -73,24 +76,57 @@ This random walk chooses its next vertex at random from the neighbors
 of the current vertex including itself.
 
 NOTE: measure \code{S3} can break down in certain graphs and is no longer
-bound to \[0,1\]. Discard of \code{S3} in those situations.
+bound to [0,1]. Discard of \code{S3} in those situations.
 
 This function either returns one of the three secrecy measures (specified
 by \code{type}) or a data.frame containing all three.
 When \code{type == 0} or \code{type == 2}, a reasonable value for \code{p}
 should be specified.
+
+The function \code{secrecy_graph} returns the overall secrecy score of the
+graph: this is the fraction of vertices in the graph expected to remain
+unexposed under a single surveillance when a single vertex is exposed by the
+LEA.
+Here, the default scenario is \code{type = 0}.
+
+The function \code{secrecy_vertex} returns the secrecy score per vertex,
+this is the fraction of vertices in the graph that are to remain
+unexposed under a surveillance when that vertex is exposed multiplied by
+the probability of that vertex being exposed to begin with.
+In other words: if 1 vertex in the graph is exposed, what is the
+fraction of vertices that that is likely to remain
+unexposed, due to vertex \code{i}? This is
+indeed determined by the number of neighbors of
+\code{i} and the risk of \code{i} being the one
+to be exposed.
+
+In scenarios 1 and 2, all vertices have the same probability of being exposed,
+so this secrecy score is proportional to the fraction that they leave unexposed
+when captured.
+For scenario 3, more central vertices are more likely to be exposed themselves,
+so more central vertices will have lower secrecy than other vertices (with
+the same number of neighbors): these central vertices are more easily exposed
+and therefore threaten the secrecy of the graph more.
+Here, the default scenario is \code{type = 1}.
+
+Note that the graph-level secrecy score is equal (barring rounding differences)
+to the sum of the vertex-level secrecy scores.
 }
 \examples{
 \dontrun{
 data(Madrid_bombing, package = "DF21")
 g <- Madrid_bombing[[25]]
-secrecy(g) # all three measures, p = .25
-secrecy(g, p = .1) # all three measures, p = .1
-secrecy(g, type = 1)  # only S1
+secrecy_graph(g) # all three measures, p = .25
+secrecy_graph(g, p = .1) # all three measures, p = .1
+secrecy_graph(g, type = 1)  # only S1
+
+secrecy_vertex(g, type = 0)
+# almost the same, difference only due to rounding of each score
+secrecy_vertex(g, type = 0) |> colSums()
 }
 }
 \references{
-the formulas come from Lindelauf, R., Borm, P., & Hamers, H. (2009).
+The formulas come from Lindelauf, R., Borm, P., & Hamers, H. (2009).
 The influence of secrecy on the communication structure of covert networks.
 Social Networks, 31(2), 126-137.
 }

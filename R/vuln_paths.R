@@ -31,6 +31,12 @@
 #' A score of 1 means that there is no effect on the 
 #' vertex-pair disconnectedness when the vertex is removed
 #' from the graph.
+#' A value of \code{Inf} occurs when all vertices were 
+#' connected before \code{i} was removed, but after removing
+#' \code{i} some became disconnected. 
+#' This makes the proportion Infinite since the number 
+#' is relative to the original number of disconnected 
+#' vertices, which was 0.
 #' 
 #' @param g object of class \code{igraph}
 #' @param mode Character constant, gives whether the shortest paths to or from 
@@ -90,7 +96,11 @@ vuln_paths <- function(g,
     # niet mee
     no_path_i <- sum(c(dist[, i], dist[i, ]))
     fin[i] <- no_path2 - (no_path - no_path_i)
-    prop[i] <- no_path2/(no_path - no_path_i)
+    if (fin[i] == 0) {
+      prop[i] <- 0   # als er geen wijziging is, dan 0 invullen
+    } else {
+      prop[i] <- no_path2/(no_path - no_path_i)
+    }
   }
 
   if (igraph::is.named(g)) {

@@ -3,11 +3,13 @@
 #' 
 #' Merge communities together for nicer plotting.
 #' 
-#' Community detection algorithms, such as \code{link[igraph]{cluster_edge_betweenness}},
-#' \code{link[igraph]{cluster_fast_greedy}},
-#' \code{link[igraph]{cluster_louvain}},
-#' \code{link[igraph]{cluster_leiden}},
-#' \code{link[igraph]{cluster_walktrap}}, et cetera,
+#' Community detection algorithms, such as
+#' \code{\link[igraph]{cluster_edge_betweenness}},
+#' \code{\link[igraph]{cluster_fast_greedy}},
+#' \code{\link[igraph]{cluster_louvain}},
+#' \code{\link[igraph]{cluster_leiden}},
+#' \code{\link[igraph]{cluster_walktrap}}, 
+#' et cetera,
 #' sometimes yield a bunch of small communities, in addition to larger, 
 #' meaningful communities.
 #' This is always the case when there are isolates, as they might each get 
@@ -39,7 +41,9 @@
 #' Hence, running \code{\link[igraph]{modularity}} on the output of this function 
 #' will return the modularity of the **original** community memberships, not the 
 #' new merged ones. 
-#' Applying \code{\link[igraph]{sizes}} does work fine on the output of 
+#' However, it is easy to calculate the modularity of the new 
+#' communities: see example section below.
+#' Applying \code{\link[igraph]{sizes}} works fine on the output of 
 #' this function.
 #' 
 #' @param coms object of class \code{communities} from one of the appropriate 
@@ -66,6 +70,19 @@
 #' com2 <- merge_membership(coms, merges = list(5:6, 7:12))
 #' plot(com2, Madrid_bombing_v2)
 #' igraph::sizes(com2)
+#' 
+#' # Compute modularity for the new grouping
+#' # (Note: it is OK that the communities are not numbered consecutively)
+#' igraph::modularity(Madrid_bombing_v2, com2$membership)
+#' # igraph::cluster_fast_greedy uses the edge weight by default.
+#' # To include that here as well, use:
+#' igraph::modularity(Madrid_bombing_v2, com2$membership, 
+#'        weights = igraph::E(Madrid_bombing_v2)$weight)
+#' # Note: \code{igraph::modularity} is only intended for undirected 
+#' # graphs with non-negative weights. In case of negative weights, 
+#' # use \code{wsyn::modularity}. 
+#' # In case of directed graphs, I currently am not aware of a good 
+#' # implementation of modularity.
 #' }
 merge_membership <- function(coms, merges) {
   if (!is.list(merges)) {stop("'merges' should be a list.")}

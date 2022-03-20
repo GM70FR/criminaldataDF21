@@ -2,7 +2,7 @@
 #' Vulnerability: efficiency
 #' 
 #' The vulnerability of a network, in terms of the change in 
-#' necessary path lengths..
+#' necessary path lengths.
 #' 
 #' When a vertex is removed from the network, some other vertices 
 #' might not be able to reach each other as efficiently 
